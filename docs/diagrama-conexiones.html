@@ -1,0 +1,382 @@
+<title>Diagrama de conexiones · Detector de GLP · ESP32-S3</title>
+<style>
+  :root {
+    --bg: #E9ECEF; --surface: #FFFFFF; --surface-2: #F2F5F7; --surface-3: #E7ECEF;
+    --ink: #191F26; --ink-2: #56626D; --ink-3: #7C8894; --line: #D2D9DE;
+    --accent: #B4632F; --accent-soft: #F0E2D7;
+    --fn-5v:  #C6413F; --fn-3v3: #B9791A; --fn-gnd: #66707A;
+    --fn-i2c: #2C6BAD; --fn-ana: #8A48B8; --fn-dig: #2C8F6E;
+    --ok: #2C8F6E; --warn: #B9791A; --crit: #C6413F;
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    --r: 10px; --maxw: 1080px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10151A; --surface: #19212A; --surface-2: #1F2833; --surface-3: #26313D;
+      --ink: #E7ECF0; --ink-2: #9DAAB5; --ink-3: #6F7D89; --line: #2C3742;
+      --accent: #D98A54; --accent-soft: #33251A;
+      --fn-5v:  #EE6E6C; --fn-3v3: #DFA53E; --fn-gnd: #8B96A1;
+      --fn-i2c: #5C9BD8; --fn-ana: #B983E0; --fn-dig: #46B98F;
+      --ok: #46B98F; --warn: #DFA53E; --crit: #EE6E6C;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #E9ECEF; --surface: #FFFFFF; --surface-2: #F2F5F7; --surface-3: #E7ECEF;
+    --ink: #191F26; --ink-2: #56626D; --ink-3: #7C8894; --line: #D2D9DE;
+    --accent: #B4632F; --accent-soft: #F0E2D7;
+    --fn-5v:  #C6413F; --fn-3v3: #B9791A; --fn-gnd: #66707A;
+    --fn-i2c: #2C6BAD; --fn-ana: #8A48B8; --fn-dig: #2C8F6E;
+    --ok: #2C8F6E; --warn: #B9791A; --crit: #C6413F;
+  }
+  :root[data-theme="dark"] {
+    --bg: #10151A; --surface: #19212A; --surface-2: #1F2833; --surface-3: #26313D;
+    --ink: #E7ECF0; --ink-2: #9DAAB5; --ink-3: #6F7D89; --line: #2C3742;
+    --accent: #D98A54; --accent-soft: #33251A;
+    --fn-5v:  #EE6E6C; --fn-3v3: #DFA53E; --fn-gnd: #8B96A1;
+    --fn-i2c: #5C9BD8; --fn-ana: #B983E0; --fn-dig: #46B98F;
+    --ok: #46B98F; --warn: #DFA53E; --crit: #EE6E6C;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-sans); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: clamp(20px, 4vw, 48px) clamp(16px, 4vw, 40px) 64px; }
+  .eyebrow {
+    font: 600 0.72rem/1 var(--font-mono); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px;
+  }
+  h1 { font-size: clamp(1.6rem, 4.2vw, 2.3rem); line-height: 1.1; margin: 0 0 10px; letter-spacing: -0.01em; text-wrap: balance; }
+  h1 .mono { font-family: var(--font-mono); color: var(--accent); font-weight: 700; }
+  .lede { color: var(--ink-2); max-width: 62ch; margin: 0; font-size: 1.02rem; }
+  h2 {
+    font-size: 1.12rem; margin: 0 0 4px; letter-spacing: -0.01em;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  h2 .idx { font: 600 0.8rem/1 var(--font-mono); color: var(--accent); }
+  section { margin-top: clamp(38px, 6vw, 58px); }
+  .sub { color: var(--ink-2); font-size: 0.92rem; margin: 0 0 18px; }
+
+  /* critical rules banner */
+  .rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 26px; }
+  .rule {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    border-left: 3px solid var(--crit); padding: 13px 15px;
+  }
+  .rule.warn { border-left-color: var(--warn); }
+  .rule .k { font: 600 0.68rem/1 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .rule .v { font-weight: 600; margin-top: 5px; font-size: 0.95rem; }
+  .rule .d { color: var(--ink-2); font-size: 0.83rem; margin-top: 3px; }
+
+  /* pinout layout */
+  .pinout { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 780px) { .pinout { grid-template-columns: 1fr auto 1fr; align-items: start; } }
+
+  .board {
+    background: linear-gradient(160deg, #16332B, #0E241E);
+    border: 1px solid #0a1a15; border-radius: 14px; padding: 16px 14px 18px;
+    box-shadow: 0 8px 26px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
+    position: relative;
+  }
+  .board .usb {
+    width: 52px; height: 11px; background: #c9ccce; border-radius: 3px;
+    margin: -22px auto 12px; box-shadow: inset 0 -2px 3px rgba(0,0,0,.3);
+  }
+  .board .name {
+    text-align: center; font: 700 0.8rem/1.2 var(--font-mono); color: #EBD9A0;
+    letter-spacing: 0.04em; margin-bottom: 14px;
+  }
+  .board .name span { display: block; font-size: 0.66rem; color: #7fae9d; letter-spacing: 0.12em; margin-top: 3px; }
+  .pads { display: grid; gap: 7px; }
+  .pad {
+    display: grid; grid-template-columns: 12px 62px 1fr; align-items: center; gap: 9px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 7px; padding: 7px 9px;
+  }
+  .pad .dot { width: 11px; height: 11px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,.08); }
+  .pad .gpio { font: 700 0.78rem/1 var(--font-mono); color: #f2ede0; }
+  .pad .lbl { font-size: 0.78rem; color: #b9c6bf; }
+  .pad .lbl b { color: #eef2ef; font-weight: 600; }
+
+  .modcol { display: grid; gap: 12px; align-content: start; }
+  .mod {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+    padding: 12px 14px; border-left: 3px solid var(--fn-gnd);
+  }
+  .mod h3 { margin: 0 0 8px; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+  .mod dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; font-size: 0.8rem; }
+  .mod dt { font-family: var(--font-mono); color: var(--ink-3); }
+  .mod dd { margin: 0; color: var(--ink-2); }
+  .mod dd b { color: var(--ink); font-family: var(--font-mono); font-weight: 600; }
+  .chip {
+    display: inline-block; font: 600 0.66rem/1 var(--font-mono); letter-spacing: 0.03em;
+    padding: 3px 6px; border-radius: 5px; color: #fff; white-space: nowrap;
+  }
+
+  /* legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 20px 0 4px; }
+  .legend span { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: var(--ink-2); }
+  .legend i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+
+  /* generic panel grid */
+  .grid2 { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  @media (min-width: 720px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 18px 20px; }
+  .panel h3 { margin: 0 0 12px; font-size: 0.98rem; }
+
+  svg { display: block; width: 100%; height: auto; }
+  .cap { font-size: 0.8rem; color: var(--ink-2); margin: 12px 0 0; }
+
+  /* power diagram */
+  .flow { display: grid; gap: 8px; font-family: var(--font-mono); font-size: 0.82rem; }
+  .flow .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .flow .box { background: var(--surface-2); border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; }
+  .flow .box.hot { border-color: var(--fn-5v); color: var(--fn-5v); font-weight: 600; }
+  .flow .box.usb { border-color: var(--fn-i2c); color: var(--fn-i2c); font-weight: 600; }
+  .flow .box.gnd { border-color: var(--fn-gnd); }
+  .flow .arr { color: var(--ink-3); }
+
+  /* table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.86rem; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--surface-2); font: 600 0.72rem/1 var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+  tbody tr:last-child td { border-bottom: none; }
+  td .mono { font-family: var(--font-mono); }
+  .state-cell { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .state-cell i { width: 10px; height: 10px; border-radius: 50%; }
+  .yes { color: var(--crit); font-weight: 600; }
+  .no  { color: var(--ink-3); }
+
+  /* checklist */
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 10px; }
+  ol.steps li {
+    counter-increment: s; background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--r); padding: 12px 14px 12px 48px; position: relative; font-size: 0.9rem;
+  }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 12px; top: 11px;
+    width: 24px; height: 24px; border-radius: 6px; background: var(--accent-soft); color: var(--accent);
+    font: 700 0.82rem/24px var(--font-mono); text-align: center;
+  }
+  code { font-family: var(--font-mono); background: var(--surface-3); padding: 1px 5px; border-radius: 4px; font-size: 0.86em; }
+  .foot { margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 0.8rem; }
+  @media (prefers-reduced-motion: no-preference) { a, .rule { transition: border-color .2s; } }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Referencia de cableado · UNMSM IoT</p>
+  <h1>Detector de fuga de GLP <span class="mono">ESP32-S3</span></h1>
+  <p class="lede">Mapa de conexiones para el montaje físico del nodo: sensor MQ-2, corte automático por relay, extractor, OLED y semáforo de estado. Ten esta página abierta mientras cableas.</p>
+
+  <div class="rules">
+    <div class="rule">
+      <div class="k">Crítico · ADC</div>
+      <div class="v">Divisor ÷2 en el MQ-2</div>
+      <div class="d">AOUT llega a ~5 V; el ADC aguanta 3.3 V. Sin divisor se daña el pin.</div>
+    </div>
+    <div class="rule warn">
+      <div class="k">Red · WiFi</div>
+      <div class="v">Hotspot en 2.4 GHz</div>
+      <div class="d">El ESP32 no ve 5 GHz. iPhone → “Maximizar compatibilidad”.</div>
+    </div>
+    <div class="rule warn">
+      <div class="k">Alimentación</div>
+      <div class="v">GND común</div>
+      <div class="d">Todas las tierras unidas. Heater y relay a 5 V externos, no al 3V3.</div>
+    </div>
+  </div>
+
+  <section>
+    <h2><span class="idx">01</span> Pinout</h2>
+    <p class="sub">Cada pad de la placa está codificado por función. El color del punto = tipo de señal (ver leyenda).</p>
+
+    <div class="legend" aria-label="Leyenda de funciones">
+      <span><i style="background:var(--fn-5v)"></i> Alim. 5 V</span>
+      <span><i style="background:var(--fn-3v3)"></i> Alim. 3.3 V</span>
+      <span><i style="background:var(--fn-gnd)"></i> GND</span>
+      <span><i style="background:var(--fn-i2c)"></i> I2C</span>
+      <span><i style="background:var(--fn-ana)"></i> Analógica (ADC)</span>
+      <span><i style="background:var(--fn-dig)"></i> Digital salida</span>
+    </div>
+
+    <div class="pinout">
+      <!-- left modules -->
+      <div class="modcol">
+        <div class="mod" style="border-left-color:var(--fn-ana)">
+          <h3>Sensor MQ-2 <span class="chip" style="background:var(--fn-ana)">GPIO4</span></h3>
+          <dl>
+            <dt>AOUT</dt><dd><b>GPIO4</b> · vía divisor ÷2</dd>
+            <dt>VCC</dt><dd><b>5 V</b> (heater)</dd>
+            <dt>GND</dt><dd>GND común</dd>
+          </dl>
+        </div>
+        <div class="mod" style="border-left-color:var(--fn-i2c)">
+          <h3>OLED 0.96" <span class="chip" style="background:var(--fn-i2c)">I2C</span></h3>
+          <dl>
+            <dt>SDA</dt><dd><b>GPIO8</b></dd>
+            <dt>SCL</dt><dd><b>GPIO9</b></dd>
+            <dt>VCC</dt><dd><b>3V3</b> · dir. 0x3C</dd>
+          </dl>
+        </div>
+        <div class="mod" style="border-left-color:var(--fn-dig)">
+          <h3>Relay 4ch <span class="chip" style="background:var(--fn-dig)">DIG</span></h3>
+          <dl>
+            <dt>IN1</dt><dd><b>GPIO10</b> · corte</dd>
+            <dt>IN2</dt><dd><b>GPIO11</b> · extractor</dd>
+            <dt>VCC</dt><dd><b>5 V</b> · activo-LOW</dd>
+          </dl>
+        </div>
+      </div>
+
+      <!-- board -->
+      <div class="board" role="img" aria-label="Placa ESP32-S3 DevKitC-1 con pines usados">
+        <div class="usb"></div>
+        <div class="name">ESP32-S3<span>DEVKITC-1</span></div>
+        <div class="pads">
+          <div class="pad"><span class="dot" style="background:var(--fn-ana)"></span><span class="gpio">GPIO4</span><span class="lbl"><b>MQ-2</b> AOUT</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-i2c)"></span><span class="gpio">GPIO8</span><span class="lbl"><b>OLED</b> SDA</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-i2c)"></span><span class="gpio">GPIO9</span><span class="lbl"><b>OLED</b> SCL</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO10</span><span class="lbl"><b>Relay</b> corte</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO11</span><span class="lbl"><b>Relay</b> extractor</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO12</span><span class="lbl"><b>Buzzer</b> +</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO13</span><span class="lbl"><b>LED</b> Rojo</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO14</span><span class="lbl"><b>LED</b> Verde</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-dig)"></span><span class="gpio">GPIO21</span><span class="lbl"><b>LED</b> Azul</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-5v)"></span><span class="gpio">5V</span><span class="lbl">MQ-2 + Relay</span></div>
+          <div class="pad"><span class="dot" style="background:var(--fn-gnd)"></span><span class="gpio">GND</span><span class="lbl">Tierra común</span></div>
+        </div>
+      </div>
+
+      <!-- right modules -->
+      <div class="modcol">
+        <div class="mod" style="border-left-color:var(--fn-dig)">
+          <h3>LED RGB <span class="chip" style="background:var(--fn-dig)">470Ω</span></h3>
+          <dl>
+            <dt>R</dt><dd><b>GPIO13</b> · 470 Ω</dd>
+            <dt>G</dt><dd><b>GPIO14</b> · 470 Ω</dd>
+            <dt>B</dt><dd><b>GPIO21</b> · 470 Ω</dd>
+          </dl>
+        </div>
+        <div class="mod" style="border-left-color:var(--fn-dig)">
+          <h3>Buzzer <span class="chip" style="background:var(--fn-dig)">DIG</span></h3>
+          <dl>
+            <dt>+</dt><dd><b>GPIO12</b></dd>
+            <dt>−</dt><dd>GND</dd>
+          </dl>
+        </div>
+        <div class="mod" style="border-left-color:var(--fn-5v)">
+          <h3>Extractor <span class="chip" style="background:var(--fn-5v)">5 V</span></h3>
+          <dl>
+            <dt>Motor</dt><dd>Relay <b>CH2</b></dd>
+            <dt>Alim</dt><dd><b>5 V</b> externa</dd>
+            <dt>Opc.</dt><dd>L298N (velocidad)</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">02</span> Circuitos clave</h2>
+    <p class="sub">Los dos puntos que más se equivocan: el divisor de tensión del sensor y el reparto de alimentación.</p>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Divisor de tensión · MQ-2 → GPIO4</h3>
+        <svg viewBox="0 0 340 190" role="img" aria-label="Esquema del divisor de tensión de dos resistencias de 1K">
+          <defs>
+            <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-3)"/>
+            </marker>
+          </defs>
+          <!-- AOUT node -->
+          <text x="8" y="34" font-family="var(--font-mono)" font-size="13" fill="var(--fn-ana)" font-weight="700">MQ-2 AOUT</text>
+          <text x="8" y="50" font-family="var(--font-mono)" font-size="11" fill="var(--ink-3)">~5 V máx</text>
+          <line x1="92" y1="30" x2="150" y2="30" stroke="var(--ink-2)" stroke-width="2"/>
+          <!-- R1 -->
+          <rect x="150" y="18" width="60" height="24" rx="4" fill="none" stroke="var(--ink)" stroke-width="2"/>
+          <text x="180" y="12" font-family="var(--font-mono)" font-size="12" fill="var(--ink)" text-anchor="middle">R1 · 1KΩ</text>
+          <line x1="210" y1="30" x2="270" y2="30" stroke="var(--ink-2)" stroke-width="2"/>
+          <!-- junction to GPIO4 -->
+          <circle cx="270" cy="30" r="3.5" fill="var(--ink)"/>
+          <line x1="270" y1="30" x2="330" y2="30" stroke="var(--fn-ana)" stroke-width="2" marker-end="url(#ah)"/>
+          <text x="285" y="22" font-family="var(--font-mono)" font-size="12" fill="var(--fn-ana)" font-weight="700">GPIO4</text>
+          <text x="285" y="50" font-family="var(--font-mono)" font-size="11" fill="var(--ok)">≤ 2.5 V ✓</text>
+          <!-- R2 down -->
+          <line x1="270" y1="30" x2="270" y2="90" stroke="var(--ink-2)" stroke-width="2"/>
+          <rect x="240" y="90" width="60" height="24" rx="4" fill="none" stroke="var(--ink)" stroke-width="2" transform="rotate(90 270 102)"/>
+          <text x="205" y="106" font-family="var(--font-mono)" font-size="12" fill="var(--ink)" text-anchor="middle">R2·1KΩ</text>
+          <line x1="270" y1="114" x2="270" y2="150" stroke="var(--ink-2)" stroke-width="2"/>
+          <!-- GND -->
+          <line x1="250" y1="150" x2="290" y2="150" stroke="var(--fn-gnd)" stroke-width="2.5"/>
+          <line x1="256" y1="157" x2="284" y2="157" stroke="var(--fn-gnd)" stroke-width="2.5"/>
+          <line x1="262" y1="164" x2="278" y2="164" stroke="var(--fn-gnd)" stroke-width="2.5"/>
+          <text x="270" y="184" font-family="var(--font-mono)" font-size="11" fill="var(--fn-gnd)" text-anchor="middle">GND</text>
+        </svg>
+        <p class="cap">Dos resistencias de <b>1 KΩ</b> reducen la señal a la mitad (5 V → 2.5 V). En <code>config.h</code> se compensa con <code>MQ2_VOLTAGE_RESOLUTION = 6.6</code>.</p>
+      </div>
+      <div class="panel">
+        <h3>Reparto de alimentación</h3>
+        <div class="flow">
+          <div class="row"><span class="box hot">Fuente 5 V ≥ 1 A</span><span class="arr">→</span><span class="box">MQ-2 VCC</span><span class="box">Relay VCC</span></div>
+          <div class="row"><span class="box usb">USB-C</span><span class="arr">→</span><span class="box">ESP32-S3</span></div>
+          <div class="row"><span class="box gnd">GND fuente</span><span class="arr">═</span><span class="box gnd">GND ESP32</span><span class="arr">═</span><span class="box gnd">GND módulos</span></div>
+        </div>
+        <p class="cap">El heater del MQ-2 (~150 mA) y la bobina del relay se alimentan de la <b>fuente de 5 V</b>, nunca del pin 3V3 del ESP32. Une <b>todas las tierras</b> o las lecturas fallan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">03</span> Lógica de actuadores</h2>
+    <p class="sub">Máquina de estados con histéresis. Umbrales ajustables en <code>config.h</code> tras calibrar en aire limpio.</p>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Estado</th><th>GLP (ppm)</th><th>LED RGB</th><th>Corte (CH1)</th><th>Extractor (CH2)</th><th>Buzzer</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="state-cell"><i style="background:var(--fn-dig)"></i>NORMAL</span></td>
+            <td class="mono">&lt; 1000</td>
+            <td>Verde</td>
+            <td class="no">No</td><td class="no">Off</td><td class="no">Off</td>
+          </tr>
+          <tr>
+            <td><span class="state-cell"><i style="background:var(--warn)"></i>PRE-ALARMA</span></td>
+            <td class="mono">1000 – 2000</td>
+            <td>Ámbar</td>
+            <td class="no">No</td><td>On (preventivo)</td><td class="no">Off</td>
+          </tr>
+          <tr>
+            <td><span class="state-cell"><i style="background:var(--crit)"></i>ALARMA</span></td>
+            <td class="mono">≥ 2000</td>
+            <td>Rojo</td>
+            <td class="yes">Sí · corte</td><td>On</td><td class="yes">On</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cap">Histéresis: sube a ALARMA en 2000 ppm, baja recién en 1500 ppm — evita que oscile en el umbral.</p>
+  </section>
+
+  <section>
+    <h2><span class="idx">04</span> Orden de montaje</h2>
+    <p class="sub">Prueba módulo por módulo: si algo falla, sabes exactamente qué fue.</p>
+    <ol class="steps">
+      <li><b>ESP32 solo</b> — flashea un “blink” y confirma que PlatformIO detecta la placa.</li>
+      <li><b>OLED</b> — muestra texto de prueba (I2C en <code>0x3C</code>; si no, prueba <code>0x3D</code>).</li>
+      <li><b>LED RGB + buzzer</b> — verifica colores y pitido.</li>
+      <li><b>Relay</b> — haz clic los 2 canales por software (aún sin sensor).</li>
+      <li><b>MQ-2 con divisor</b> — mide con el multímetro que GPIO4 <b>nunca pase de ~2.5 V</b>.</li>
+      <li><b>Extractor / motor DC</b> — conéctalo al Relay CH2. Recuerda el <b>burn-in de 24 h</b> del MQ-2.</li>
+    </ol>
+  </section>
+
+  <p class="foot">Prototipo académico — no es un dispositivo de seguridad certificado. Pruebas de fuga con gas de encendedor <b>sin llama</b>, en área ventilada. GPIO evitados: 19/20 (USB), 0/45/46 (arranque), 26–37 (flash/PSRAM).</p>
+
+</div>
