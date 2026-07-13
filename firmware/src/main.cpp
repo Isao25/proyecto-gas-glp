@@ -154,7 +154,7 @@ void aplicarActuadores(Estado e) {
 //  PUBLICACIONES MQTT
 // ---------------------------------------------------------------------------
 void publicarTelemetria() {
-  StaticJsonDocument<160> doc;
+  JsonDocument doc;
   doc["ppm"]    = (int)ppm;
   doc["estado"] = nombreEstado(estado);
   doc["rssi"]   = WiFi.RSSI();
@@ -165,7 +165,7 @@ void publicarTelemetria() {
 }
 
 void publicarAlarma(bool activa) {
-  StaticJsonDocument<160> doc;
+  JsonDocument doc;
   doc["alarma"] = activa;
   doc["ppm"]    = (int)ppm;
   doc["estado"] = nombreEstado(estado);
@@ -176,7 +176,7 @@ void publicarAlarma(bool activa) {
 }
 
 void publicarActuadores() {
-  StaticJsonDocument<128> doc;
+  JsonDocument doc;
   doc["corte"]     = (estado == ALARMA);
   doc["extractor"] = (estado != NORMAL);
   char buf[128];
