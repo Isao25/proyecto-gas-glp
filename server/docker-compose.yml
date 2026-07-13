@@ -1,0 +1,60 @@
+# =============================================================================
+#  Stack del servidor (corre en la laptop)
+#  Mosquitto (broker) -> Node-RED (logica) -> InfluxDB (histor.) -> Grafana (dash)
+#
+#  Levantar:   docker compose up -d
+#  Apagar:     docker compose down
+#  Logs:       docker compose logs -f
+#
+#  Accesos desde el navegador de la laptop:
+#     Node-RED  http://localhost:1880
+#     InfluxDB  http://localhost:8086
+#     Grafana   http://localhost:3000   (admin / admin la primera vez)
+#
+#  IMPORTANTE: entre contenedores se habla por NOMBRE de servicio
+#  (mosquitto, influxdb), NO por localhost.
+# =============================================================================
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"      # MQTT (el ESP32 conecta aqui)
+      - "9001:9001"      # websockets (opcional, util para dashboards web)
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: nodered
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered:/data
+    depends_on:
+      - mosquitto
+
+  influxdb:
+    image: influxdb:2
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - ./influxdb/data:/var/lib/influxdb2
+      - ./influxdb/config:/etc/influxdb2
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - influxdb
