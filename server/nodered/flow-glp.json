@@ -8,22 +8,22 @@
   { "id": "ui-g1", "type": "ui_group", "name": "Monitoreo", "tab": "ui-tab", "order": 1, "disp": true, "width": "6", "collapse": false },
   { "id": "ui-g2", "type": "ui_group", "name": "Estado y Alarmas", "tab": "ui-tab", "order": 2, "disp": true, "width": "6", "collapse": false },
 
-  { "id": "mq-tel", "type": "mqtt in", "z": "tab-glp", "name": "telemetria (QoS0)", "topic": "gas/nodo1/telemetria", "qos": "0", "datatype": "auto-detect", "broker": "brk-mosq", "x": 150, "y": 100, "wires": [["js-tel"]] },
-  { "id": "js-tel", "type": "json", "z": "tab-glp", "name": "", "property": "payload", "action": "", "pretty": false, "x": 330, "y": 100, "wires": [["fn-tel-num", "fn-tel-inf", "dbg-tel"]] },
+  { "id": "mq-tel", "type": "mqtt in", "z": "tab-glp", "name": "telemetria (QoS0)", "topic": "gas/nodo1/telemetria", "qos": "0", "datatype": "utf8", "broker": "brk-mosq", "x": 150, "y": 100, "wires": [["js-tel"]] },
+  { "id": "js-tel", "type": "json", "z": "tab-glp", "name": "", "property": "payload", "action": "obj", "pretty": false, "x": 330, "y": 100, "wires": [["fn-tel-num", "fn-tel-inf", "dbg-tel"]] },
   { "id": "fn-tel-num", "type": "function", "z": "tab-glp", "name": "ppm -> valor", "func": "msg.payload = msg.payload.ppm;\nreturn msg;", "outputs": 1, "noerr": 0, "x": 520, "y": 70, "wires": [["ui-gauge", "ui-chart"]] },
   { "id": "fn-tel-inf", "type": "function", "z": "tab-glp", "name": "punto InfluxDB", "func": "msg.payload = { ppm: msg.payload.ppm, rssi: msg.payload.rssi };\nreturn msg;", "outputs": 1, "noerr": 0, "x": 530, "y": 130, "wires": [["idb-tel"]] },
   { "id": "idb-tel", "type": "influxdb out", "z": "tab-glp", "influxdb": "idb-conf", "name": "telemetria", "measurement": "telemetria", "precision": "", "retentionPolicy": "", "database": "gas", "precisionV18FluxV20": "ms", "retentionPolicyV18Flux": "", "org": "unmsm", "bucket": "gas", "x": 740, "y": 130, "wires": [] },
   { "id": "ui-gauge", "type": "ui_gauge", "z": "tab-glp", "name": "", "group": "ui-g1", "order": 1, "width": "6", "height": "4", "gtype": "gage", "title": "GLP", "label": "ppm", "format": "{{value}}", "min": "0", "max": "5000", "colors": ["#00b500", "#e6e600", "#ca3838"], "seg1": "1000", "seg2": "2000", "x": 730, "y": 50, "wires": [] },
   { "id": "ui-chart", "type": "ui_chart", "z": "tab-glp", "name": "Historial ppm", "group": "ui-g1", "order": 2, "width": "6", "height": "4", "label": "ppm", "chartType": "line", "legend": "false", "xformat": "HH:mm:ss", "interpolate": "linear", "nodata": "", "dot": false, "ymin": "0", "ymax": "", "removeOlder": "1", "removeOlderPoints": "", "removeOlderUnit": "3600", "cutout": 0, "useOneColor": false, "colors": ["#1f77b4"], "x": 750, "y": 90, "wires": [[]] },
 
-  { "id": "mq-alr", "type": "mqtt in", "z": "tab-glp", "name": "alarma (QoS1)", "topic": "gas/nodo1/alarma", "qos": "1", "datatype": "auto-detect", "broker": "brk-mosq", "x": 140, "y": 240, "wires": [["js-alr"]] },
-  { "id": "js-alr", "type": "json", "z": "tab-glp", "name": "", "property": "payload", "action": "", "pretty": false, "x": 330, "y": 240, "wires": [["fn-alr-inf", "fn-alr-txt"]] },
+  { "id": "mq-alr", "type": "mqtt in", "z": "tab-glp", "name": "alarma (QoS1)", "topic": "gas/nodo1/alarma", "qos": "1", "datatype": "utf8", "broker": "brk-mosq", "x": 140, "y": 240, "wires": [["js-alr"]] },
+  { "id": "js-alr", "type": "json", "z": "tab-glp", "name": "", "property": "payload", "action": "obj", "pretty": false, "x": 330, "y": 240, "wires": [["fn-alr-inf", "fn-alr-txt"]] },
   { "id": "fn-alr-inf", "type": "function", "z": "tab-glp", "name": "punto InfluxDB", "func": "msg.payload = { alarma: msg.payload.alarma ? 1 : 0, ppm: msg.payload.ppm };\nreturn msg;", "outputs": 1, "noerr": 0, "x": 530, "y": 210, "wires": [["idb-alr"]] },
   { "id": "idb-alr", "type": "influxdb out", "z": "tab-glp", "influxdb": "idb-conf", "name": "alarma", "measurement": "alarma", "precision": "", "retentionPolicy": "", "database": "gas", "precisionV18FluxV20": "ms", "retentionPolicyV18Flux": "", "org": "unmsm", "bucket": "gas", "x": 730, "y": 210, "wires": [] },
   { "id": "fn-alr-txt", "type": "function", "z": "tab-glp", "name": "texto alarma", "func": "msg.payload = msg.payload.alarma ? ('ALARMA - ' + msg.payload.ppm + ' ppm') : 'Sin alarma';\nreturn msg;", "outputs": 1, "noerr": 0, "x": 520, "y": 270, "wires": [["ui-alr"]] },
   { "id": "ui-alr", "type": "ui_text", "z": "tab-glp", "group": "ui-g2", "order": 2, "width": "6", "height": "1", "name": "", "label": "Ultima alarma", "format": "{{msg.payload}}", "layout": "row-spread", "x": 730, "y": 270, "wires": [] },
 
-  { "id": "mq-est", "type": "mqtt in", "z": "tab-glp", "name": "estado / LWT (QoS1)", "topic": "gas/nodo1/estado", "qos": "1", "datatype": "auto-detect", "broker": "brk-mosq", "x": 160, "y": 380, "wires": [["ui-est", "dbg-est"]] },
+  { "id": "mq-est", "type": "mqtt in", "z": "tab-glp", "name": "estado / LWT (QoS1)", "topic": "gas/nodo1/estado", "qos": "1", "datatype": "utf8", "broker": "brk-mosq", "x": 160, "y": 380, "wires": [["ui-est", "dbg-est"]] },
   { "id": "ui-est", "type": "ui_text", "z": "tab-glp", "group": "ui-g2", "order": 1, "width": "6", "height": "1", "name": "", "label": "Estado nodo", "format": "{{msg.payload}}", "layout": "row-spread", "x": 390, "y": 360, "wires": [] },
   { "id": "dbg-est", "type": "debug", "z": "tab-glp", "name": "estado", "active": true, "tosidebar": true, "console": false, "tostatus": false, "complete": "payload", "targetType": "msg", "x": 390, "y": 410, "wires": [] },
 

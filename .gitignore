@@ -1,7 +1,8 @@
 # ---- Firmware (PlatformIO) ----
 firmware/.pio/
 firmware/.vscode/
-firmware/include/secrets.h        # datos privados: WiFi, IP, contraseñas
+# Datos privados: WiFi, IP, contraseñas
+firmware/include/secrets.h
 
 # ---- Servidor: datos generados (NO se suben, son "estado", no config) ----
 server/mosquitto/data/
@@ -12,6 +13,15 @@ server/nodered/node_modules/
 server/nodered/.config.*
 server/nodered/.flows.json.backup
 server/nodered/lib/
+
+# ---- Node-RED: archivos que genera al correr ----
+# (flow-glp.json SI se sube; estos NO, son estado o contienen el token)
+server/nodered/flows.json
+server/nodered/flows_cred.json
+server/nodered/settings.js
+server/nodered/package.json
+server/nodered/package-lock.json
+server/nodered/.npm/
 
 # ---- Sistema ----
 .DS_Store
