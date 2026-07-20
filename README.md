@@ -9,6 +9,8 @@ para detectar caídas del nodo. Los datos se visualizan en **Node-RED** y **Graf
 
 > Proyecto del curso de IoT — Universidad Nacional Mayor de San Marcos.
 
+📖 **Documentación técnica detallada:** [docs/INFRAESTRUCTURA.md](docs/INFRAESTRUCTURA.md) — arquitectura completa, capas, stack, MQTT y estado de verificación.
+
 ## Arquitectura
 
 ```

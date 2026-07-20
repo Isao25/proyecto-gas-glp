@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 780" font-family="Helvetica, Arial, sans-serif">
+  <!-- ================= FONDO ================= -->
+  <rect x="0" y="0" width="1120" height="780" fill="#ffffff"/>
+  <text x="560" y="40" text-anchor="middle" font-size="26" font-weight="bold" fill="#1a2530">Diagrama de conexiones — Detector de fuga de GLP</text>
+  <text x="560" y="66" text-anchor="middle" font-size="15" fill="#5a6672">ESP32-S3 DevKitC-1 · sensor MQ-2 · relay · OLED · buzzer · LED RGB</text>
+
+  <!-- ================= RIELES DE ALIMENTACION ================= -->
+  <line x1="90" y1="110" x2="1030" y2="110" stroke="#c6413f" stroke-width="4"/>
+  <text x="96" y="102" font-size="14" font-weight="bold" fill="#c6413f">+5 V  (fuente externa)</text>
+  <line x1="90" y1="720" x2="1030" y2="720" stroke="#3a4149" stroke-width="4"/>
+  <text x="96" y="742" font-size="14" font-weight="bold" fill="#3a4149">GND  (tierra común — todas unidas)</text>
+
+  <!-- ================= PLACA ESP32-S3 ================= -->
+  <rect x="470" y="185" width="180" height="470" rx="12" fill="#14332b" stroke="#0a1a15" stroke-width="2"/>
+  <text x="560" y="215" text-anchor="middle" font-size="15" font-weight="bold" fill="#ebd9a0">ESP32-S3</text>
+  <text x="560" y="233" text-anchor="middle" font-size="11" fill="#7fae9d">DevKitC-1</text>
+  <!-- USB-C abajo -->
+  <rect x="533" y="648" width="54" height="14" rx="3" fill="#c9ccce"/>
+  <text x="560" y="636" text-anchor="middle" font-size="10" fill="#7fae9d">USB-C</text>
+
+  <!-- Pines izquierdos (pad + etiqueta) -->
+  <!-- 5V -->
+  <rect x="462" y="224" width="10" height="10" fill="#c6413f"/>
+  <text x="478" y="233" font-size="12" font-weight="bold" fill="#f2ede0">5V</text>
+  <!-- GPIO4 -->
+  <rect x="462" y="294" width="10" height="10" fill="#8a48b8"/>
+  <text x="478" y="303" font-size="12" font-weight="bold" fill="#f2ede0">GPIO4</text>
+  <!-- GPIO8 -->
+  <rect x="462" y="374" width="10" height="10" fill="#2c6bad"/>
+  <text x="478" y="383" font-size="12" font-weight="bold" fill="#f2ede0">GPIO8</text>
+  <!-- GPIO9 -->
+  <rect x="462" y="414" width="10" height="10" fill="#2c6bad"/>
+  <text x="478" y="423" font-size="12" font-weight="bold" fill="#f2ede0">GPIO9</text>
+  <!-- 3V3 -->
+  <rect x="462" y="494" width="10" height="10" fill="#b9791a"/>
+  <text x="478" y="503" font-size="12" font-weight="bold" fill="#f2ede0">3V3</text>
+  <!-- GND -->
+  <rect x="462" y="574" width="10" height="10" fill="#8a96a1"/>
+  <text x="478" y="583" font-size="12" font-weight="bold" fill="#f2ede0">GND</text>
+
+  <!-- Pines derechos -->
+  <rect x="648" y="234" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="243" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO10</text>
+  <rect x="648" y="284" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="293" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO11</text>
+  <rect x="648" y="354" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="363" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO12</text>
+  <rect x="648" y="434" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="443" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO13</text>
+  <rect x="648" y="474" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="483" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO14</text>
+  <rect x="648" y="514" width="10" height="10" fill="#2c8f6e"/>
+  <text x="642" y="523" text-anchor="end" font-size="12" font-weight="bold" fill="#f2ede0">GPIO21</text>
+
+  <!-- ================= MODULO MQ-2 ================= -->
+  <rect x="90" y="235" width="180" height="120" rx="8" fill="#f7f4ef" stroke="#8a48b8" stroke-width="2"/>
+  <text x="180" y="262" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">Sensor MQ-2</text>
+  <text x="180" y="282" text-anchor="middle" font-size="11" fill="#5a6672">gas GLP (analógico)</text>
+  <text x="100" y="312" font-size="11" fill="#3a4149">VCC</text>
+  <text x="100" y="332" font-size="11" fill="#3a4149">AOUT</text>
+  <text x="100" y="350" font-size="11" fill="#3a4149">GND</text>
+  <circle cx="270" cy="308" r="4" fill="#c6413f"/>   <!-- VCC -->
+  <circle cx="270" cy="328" r="4" fill="#8a48b8"/>   <!-- AOUT -->
+  <circle cx="270" cy="346" r="4" fill="#8a96a1"/>   <!-- GND -->
+
+  <!-- MQ-2 VCC -> riel 5V -->
+  <polyline points="270,308 300,308 300,110" fill="none" stroke="#c6413f" stroke-width="2.5"/>
+  <!-- MQ-2 GND -> riel GND -->
+  <polyline points="270,346 285,346 285,720" fill="none" stroke="#8a96a1" stroke-width="2.5"/>
+
+  <!-- ====== DIVISOR DE TENSION (AOUT -> GPIO4) ====== -->
+  <!-- tramo AOUT a R1 -->
+  <line x1="270" y1="328" x2="330" y2="328" stroke="#8a48b8" stroke-width="2.5"/>
+  <rect x="330" y="318" width="46" height="20" rx="3" fill="#ffffff" stroke="#1a2530" stroke-width="1.5"/>
+  <text x="353" y="313" text-anchor="middle" font-size="10" fill="#1a2530">R1 1KΩ</text>
+  <line x1="376" y1="328" x2="420" y2="328" stroke="#8a48b8" stroke-width="2.5"/>
+  <circle cx="420" cy="328" r="3.5" fill="#1a2530"/>
+  <!-- nodo -> GPIO4 -->
+  <polyline points="420,328 420,299 462,299" fill="none" stroke="#8a48b8" stroke-width="2.5"/>
+  <!-- nodo -> R2 -> GND -->
+  <line x1="420" y1="328" x2="420" y2="360" stroke="#8a48b8" stroke-width="2.5"/>
+  <rect x="397" y="360" width="46" height="20" rx="3" fill="#ffffff" stroke="#1a2530" stroke-width="1.5"/>
+  <text x="420" y="374" text-anchor="middle" font-size="10" fill="#1a2530">R2 1KΩ</text>
+  <polyline points="420,380 420,400 400,400 400,720" fill="none" stroke="#8a96a1" stroke-width="2"/>
+  <text x="300" y="250" font-size="10.5" fill="#8a48b8" font-weight="bold">divisor ÷2</text>
+  <text x="300" y="405" font-size="10" fill="#2c8f6e">5V → 2.5 V (protege el ADC)</text>
+
+  <!-- ================= MODULO OLED ================= -->
+  <rect x="90" y="410" width="180" height="130" rx="8" fill="#f2f6f9" stroke="#2c6bad" stroke-width="2"/>
+  <text x="180" y="437" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">OLED 0.96"</text>
+  <text x="180" y="457" text-anchor="middle" font-size="11" fill="#5a6672">I2C · dir. 0x3C</text>
+  <text x="100" y="483" font-size="11" fill="#3a4149">VCC</text>
+  <text x="100" y="503" font-size="11" fill="#3a4149">GND</text>
+  <text x="100" y="523" font-size="11" fill="#3a4149">SCL</text>
+  <text x="145" y="523" font-size="11" fill="#3a4149">SDA</text>
+  <circle cx="270" cy="479" r="4" fill="#b9791a"/>  <!-- VCC 3V3 -->
+  <circle cx="270" cy="499" r="4" fill="#8a96a1"/>  <!-- GND -->
+  <circle cx="270" cy="519" r="4" fill="#2c6bad"/>  <!-- SCL -->
+  <circle cx="250" cy="519" r="4" fill="#2c6bad"/>  <!-- SDA -->
+
+  <!-- OLED VCC -> 3V3 -->
+  <polyline points="270,479 300,479 300,499 462,499" fill="none" stroke="#b9791a" stroke-width="2.5"/>
+  <!-- OLED GND -> riel -->
+  <polyline points="270,499 290,499 290,720" fill="none" stroke="#8a96a1" stroke-width="2"/>
+  <!-- SDA -> GPIO8 -->
+  <polyline points="250,519 250,540 320,540 320,379 462,379" fill="none" stroke="#2c6bad" stroke-width="2.5"/>
+  <!-- SCL -> GPIO9 -->
+  <polyline points="270,519 335,519 335,419 462,419" fill="none" stroke="#2c6bad" stroke-width="2.5"/>
+
+  <!-- ================= MODULO RELAY ================= -->
+  <rect x="850" y="205" width="180" height="130" rx="8" fill="#eef7f3" stroke="#2c8f6e" stroke-width="2"/>
+  <text x="940" y="232" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">Relay 4ch</text>
+  <text x="940" y="252" text-anchor="middle" font-size="11" fill="#5a6672">activo en BAJO</text>
+  <text x="1020" y="283" text-anchor="end" font-size="11" fill="#3a4149">IN1 (corte)</text>
+  <text x="1020" y="303" text-anchor="end" font-size="11" fill="#3a4149">IN2 (extractor)</text>
+  <text x="1020" y="323" text-anchor="end" font-size="11" fill="#3a4149">VCC · GND</text>
+  <circle cx="850" cy="279" r="4" fill="#2c8f6e"/>  <!-- IN1 -->
+  <circle cx="850" cy="299" r="4" fill="#2c8f6e"/>  <!-- IN2 -->
+  <circle cx="850" cy="319" r="4" fill="#c6413f"/>  <!-- VCC -->
+  <circle cx="868" cy="319" r="4" fill="#8a96a1"/>  <!-- GND -->
+
+  <!-- IN1 -> GPIO10 -->
+  <polyline points="850,279 760,279 760,239 658,239" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- IN2 -> GPIO11 -->
+  <polyline points="850,299 745,299 745,289 658,289" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- Relay VCC -> 5V -->
+  <polyline points="850,319 810,319 810,110" fill="none" stroke="#c6413f" stroke-width="2.5"/>
+  <!-- Relay GND -> riel -->
+  <polyline points="868,319 830,319 830,720" fill="none" stroke="#8a96a1" stroke-width="2"/>
+
+  <!-- ================= MODULO BUZZER ================= -->
+  <rect x="850" y="350" width="180" height="70" rx="8" fill="#eef7f3" stroke="#2c8f6e" stroke-width="2"/>
+  <text x="940" y="378" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">Buzzer</text>
+  <text x="1020" y="400" text-anchor="end" font-size="11" fill="#3a4149">(+)  ·  (−)</text>
+  <circle cx="850" cy="395" r="4" fill="#2c8f6e"/>  <!-- + -->
+  <circle cx="868" cy="410" r="4" fill="#8a96a1"/>  <!-- - -->
+  <!-- + -> GPIO12 -->
+  <polyline points="850,395 730,395 730,359 658,359" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- - -> riel GND -->
+  <polyline points="868,410 845,410 845,720" fill="none" stroke="#8a96a1" stroke-width="2"/>
+
+  <!-- ================= MODULO LED RGB ================= -->
+  <rect x="850" y="435" width="180" height="135" rx="8" fill="#eef7f3" stroke="#2c8f6e" stroke-width="2"/>
+  <text x="940" y="462" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">LED RGB</text>
+  <text x="940" y="481" text-anchor="middle" font-size="10.5" fill="#5a6672">cada color con 470Ω</text>
+  <text x="1020" y="503" text-anchor="end" font-size="11" fill="#3a4149">R (rojo)</text>
+  <text x="1020" y="523" text-anchor="end" font-size="11" fill="#3a4149">G (verde)</text>
+  <text x="1020" y="543" text-anchor="end" font-size="11" fill="#3a4149">B (azul)</text>
+  <text x="1020" y="562" text-anchor="end" font-size="11" fill="#3a4149">cátodo común</text>
+  <circle cx="850" cy="499" r="4" fill="#2c8f6e"/>
+  <circle cx="850" cy="519" r="4" fill="#2c8f6e"/>
+  <circle cx="850" cy="539" r="4" fill="#2c8f6e"/>
+  <circle cx="868" cy="558" r="4" fill="#8a96a1"/>
+
+  <!-- R -> 470 -> GPIO13 -->
+  <line x1="850" y1="499" x2="800" y2="499" stroke="#2c8f6e" stroke-width="2.5"/>
+  <rect x="754" y="489" width="46" height="20" rx="3" fill="#ffffff" stroke="#1a2530" stroke-width="1.2"/>
+  <text x="777" y="503" text-anchor="middle" font-size="9" fill="#1a2530">470Ω</text>
+  <polyline points="754,499 715,499 715,439 658,439" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- G -> 470 -> GPIO14 -->
+  <line x1="850" y1="519" x2="800" y2="519" stroke="#2c8f6e" stroke-width="2.5"/>
+  <rect x="754" y="509" width="46" height="20" rx="3" fill="#ffffff" stroke="#1a2530" stroke-width="1.2"/>
+  <text x="777" y="523" text-anchor="middle" font-size="9" fill="#1a2530">470Ω</text>
+  <polyline points="754,519 700,519 700,479 658,479" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- B -> 470 -> GPIO21 -->
+  <line x1="850" y1="539" x2="800" y2="539" stroke="#2c8f6e" stroke-width="2.5"/>
+  <rect x="754" y="529" width="46" height="20" rx="3" fill="#ffffff" stroke="#1a2530" stroke-width="1.2"/>
+  <text x="777" y="543" text-anchor="middle" font-size="9" fill="#1a2530">470Ω</text>
+  <polyline points="754,539 685,539 685,519 658,519" fill="none" stroke="#2c8f6e" stroke-width="2.5"/>
+  <!-- catodo -> riel GND -->
+  <polyline points="868,558 860,558 860,720" fill="none" stroke="#8a96a1" stroke-width="2"/>
+
+  <!-- ================= BOARD 5V y GND a rieles ================= -->
+  <polyline points="462,229 445,229 445,110" fill="none" stroke="#c6413f" stroke-width="2.5"/>
+  <polyline points="462,579 455,579 455,720" fill="none" stroke="#8a96a1" stroke-width="2.5"/>
+
+  <!-- ================= LEYENDA ================= -->
+  <rect x="90" y="600" width="330" height="100" rx="8" fill="#f7f8f9" stroke="#d2d9de" stroke-width="1"/>
+  <text x="105" y="622" font-size="12" font-weight="bold" fill="#1a2530">Leyenda de colores (función del pin)</text>
+  <g font-size="11" fill="#3a4149">
+    <rect x="105" y="634" width="12" height="12" fill="#c6413f"/><text x="124" y="644">5 V</text>
+    <rect x="180" y="634" width="12" height="12" fill="#b9791a"/><text x="199" y="644">3.3 V</text>
+    <rect x="270" y="634" width="12" height="12" fill="#8a96a1"/><text x="289" y="644">GND</text>
+    <rect x="105" y="656" width="12" height="12" fill="#2c6bad"/><text x="124" y="666">I2C</text>
+    <rect x="180" y="656" width="12" height="12" fill="#8a48b8"/><text x="199" y="666">Analógica (ADC)</text>
+    <rect x="105" y="678" width="12" height="12" fill="#2c8f6e"/><text x="124" y="688">Digital (salida)</text>
+  </g>
+
+  <!-- Nota de pines a evitar -->
+  <rect x="500" y="672" width="460" height="40" rx="6" fill="#fdf6e6" stroke="#e5d29a" stroke-width="1"/>
+  <text x="730" y="690" text-anchor="middle" font-size="11" fill="#8a6a1a">⚠ Alimentar MQ-2 y relay con fuente 5V externa (no del pin 3V3).</text>
+  <text x="730" y="706" text-anchor="middle" font-size="11" fill="#8a6a1a">GPIO a evitar: 19/20 (USB) · 0/45/46 (arranque) · 26–37 (flash/PSRAM).</text>
+</svg>
