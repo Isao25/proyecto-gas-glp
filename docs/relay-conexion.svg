@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 700" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1120" height="700" fill="#ffffff"/>
+  <text x="560" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1a2530">Cómo conectar el módulo Relay (4 canales)</text>
+  <text x="560" y="68" text-anchor="middle" font-size="15" fill="#5a6672">Lado de CONTROL (al ESP32): 4 cables. Usamos 2 canales: CH1 = corte, CH2 = extractor.</text>
+
+  <!-- ===== MÓDULO RELAY ===== -->
+  <rect x="70" y="150" width="230" height="310" rx="12" fill="#eaf1f7" stroke="#2c6bad" stroke-width="2.5"/>
+  <text x="185" y="182" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a2530">Relay 4ch</text>
+  <text x="185" y="202" text-anchor="middle" font-size="11" fill="#8a6a1a">activo en BAJO</text>
+  <!-- pines de control -->
+  <text x="95" y="243" font-size="14" font-weight="bold" fill="#2c8f6e">IN1</text>
+  <text x="128" y="243" font-size="11" fill="#5a6672">(corte)</text>
+  <text x="95" y="283" font-size="14" font-weight="bold" fill="#2c8f6e">IN2</text>
+  <text x="128" y="283" font-size="11" fill="#5a6672">(extractor)</text>
+  <text x="95" y="323" font-size="13" fill="#9aa6b0">IN3 · IN4  (sin usar)</text>
+  <text x="95" y="373" font-size="14" font-weight="bold" fill="#c6413f">VCC</text>
+  <text x="95" y="413" font-size="14" font-weight="bold" fill="#3a4149">GND</text>
+  <circle cx="300" cy="238" r="6" fill="#2c8f6e"/>
+  <circle cx="300" cy="278" r="6" fill="#2c8f6e"/>
+  <circle cx="300" cy="368" r="6" fill="#c6413f"/>
+  <circle cx="300" cy="408" r="6" fill="#6b7580"/>
+
+  <!-- ===== ESP32 ===== -->
+  <rect x="820" y="150" width="220" height="310" rx="12" fill="#14332b" stroke="#0a1a15" stroke-width="2.5"/>
+  <text x="930" y="182" text-anchor="middle" font-size="18" font-weight="bold" fill="#ebd9a0">ESP32-S3</text>
+  <text x="872" y="243" font-size="14" font-weight="bold" fill="#f2ede0">GPIO10</text>
+  <text x="872" y="283" font-size="14" font-weight="bold" fill="#f2ede0">GPIO11</text>
+  <text x="888" y="373" font-size="14" font-weight="bold" fill="#f2ede0">5V</text>
+  <text x="884" y="413" font-size="14" font-weight="bold" fill="#f2ede0">GND</text>
+  <circle cx="820" cy="238" r="6" fill="#2c8f6e"/>
+  <circle cx="820" cy="278" r="6" fill="#2c8f6e"/>
+  <circle cx="820" cy="368" r="6" fill="#c6413f"/>
+  <circle cx="820" cy="408" r="6" fill="#6b7580"/>
+
+  <!-- ===== Cables de control ===== -->
+  <line x1="300" y1="238" x2="820" y2="238" stroke="#2c8f6e" stroke-width="3.5"/>
+  <text x="560" y="228" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c8f6e">IN1 → GPIO10  (corte)</text>
+  <line x1="300" y1="278" x2="820" y2="278" stroke="#2c8f6e" stroke-width="3.5"/>
+  <text x="560" y="268" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c8f6e">IN2 → GPIO11  (extractor)</text>
+  <line x1="300" y1="368" x2="820" y2="368" stroke="#c6413f" stroke-width="3.5"/>
+  <text x="560" y="358" text-anchor="middle" font-size="13" font-weight="bold" fill="#c6413f">VCC → 5V</text>
+  <line x1="300" y1="408" x2="820" y2="408" stroke="#6b7580" stroke-width="3.5"/>
+  <text x="560" y="398" text-anchor="middle" font-size="13" font-weight="bold" fill="#6b7580">GND → GND</text>
+
+  <!-- ===== Lado de salida (bornes) ===== -->
+  <rect x="70" y="490" width="1000" height="180" rx="10" fill="#f7f8f9" stroke="#d2d9de" stroke-width="1.2"/>
+  <text x="90" y="516" font-size="15" font-weight="bold" fill="#1a2530">Lado de SALIDA — los bornes de tornillo (lo que el relay "corta" o "enciende")</text>
+
+  <text x="90" y="546" font-size="13" font-weight="bold" fill="#c6413f">CH1 — CORTE (el circuito simulado):</text>
+  <text x="110" y="566" font-size="12.5" fill="#3a4149">Conecta tu carga (ej. un LED o foquito) entre COM y NC. Así en NORMAL el circuito está</text>
+  <text x="110" y="583" font-size="12.5" fill="#3a4149">CERRADO (encendido); en ALARMA el relay se activa y ABRE el NC → CORTA la energía.</text>
+
+  <text x="90" y="616" font-size="13" font-weight="bold" fill="#2c8f6e">CH2 — EXTRACTOR (el motor DC / ventilador):</text>
+  <text x="110" y="636" font-size="12.5" fill="#3a4149">Conecta el motor entre COM y NO (con su propia fuente). En NORMAL está APAGADO; en</text>
+  <text x="110" y="653" font-size="12.5" fill="#3a4149">PRE-ALARMA/ALARMA el relay cierra el NO → el extractor se ENCIENDE.</text>
+
+  <!-- leyenda bornes -->
+  <text x="720" y="546" font-size="12" font-weight="bold" fill="#5a6672">COM = común</text>
+  <text x="720" y="566" font-size="12" fill="#5a6672">NO = normalmente abierto</text>
+  <text x="720" y="586" font-size="12" fill="#5a6672">NC = normalmente cerrado</text>
+</svg>

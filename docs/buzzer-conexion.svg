@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1000" height="470" fill="#ffffff"/>
+  <text x="500" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1a2530">Cómo conectar el buzzer</text>
+  <text x="500" y="68" text-anchor="middle" font-size="15" fill="#5a6672">Buzzer ACTIVO, solo 2 cables. ¡Respeta la polaridad! (+) y (−).</text>
+
+  <!-- ===== Buzzer ===== -->
+  <rect x="80" y="150" width="200" height="200" rx="12" fill="#f7f9fb" stroke="#5a6672" stroke-width="2"/>
+  <text x="180" y="182" text-anchor="middle" font-size="19" font-weight="bold" fill="#1a2530">Buzzer</text>
+  <!-- icono cilindro negro -->
+  <ellipse cx="180" cy="235" rx="42" ry="14" fill="#2a2f34"/>
+  <rect x="138" y="235" width="84" height="40" fill="#2a2f34"/>
+  <ellipse cx="180" cy="275" rx="42" ry="14" fill="#3a4149"/>
+  <text x="180" y="240" text-anchor="middle" font-size="16" font-weight="bold" fill="#ebd9a0">+</text>
+  <!-- pines -->
+  <text x="120" y="313" font-size="16" font-weight="bold" fill="#c6413f">(+)</text>
+  <text x="118" y="331" font-size="10.5" fill="#8a6a1a">pata larga</text>
+  <text x="120" y="360" font-size="16" font-weight="bold" fill="#3a4149">(−)</text>
+  <circle cx="280" cy="308" r="6" fill="#c6413f"/>
+  <circle cx="280" cy="352" r="6" fill="#6b7580"/>
+
+  <!-- ===== ESP32 ===== -->
+  <rect x="720" y="150" width="200" height="200" rx="12" fill="#14332b" stroke="#0a1a15" stroke-width="2.5"/>
+  <text x="820" y="182" text-anchor="middle" font-size="19" font-weight="bold" fill="#ebd9a0">ESP32-S3</text>
+  <text x="772" y="313" font-size="16" font-weight="bold" fill="#f2ede0">GPIO12</text>
+  <text x="786" y="357" font-size="16" font-weight="bold" fill="#f2ede0">GND</text>
+  <circle cx="720" cy="308" r="6" fill="#c6413f"/>
+  <circle cx="720" cy="352" r="6" fill="#6b7580"/>
+
+  <!-- ===== (+) -> GPIO12 (directo, sin resistencia) ===== -->
+  <line x1="280" y1="308" x2="720" y2="308" stroke="#c6413f" stroke-width="3.5"/>
+  <text x="500" y="298" text-anchor="middle" font-size="14" font-weight="bold" fill="#c6413f">(+) → GPIO12</text>
+
+  <!-- ===== (-) -> GND ===== -->
+  <line x1="280" y1="352" x2="720" y2="352" stroke="#6b7580" stroke-width="3.5"/>
+  <text x="500" y="342" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b7580">(−) → GND</text>
+
+  <!-- ===== Nota ===== -->
+  <rect x="80" y="385" width="840" height="66" rx="8" fill="#fdf6e6" stroke="#e5d29a" stroke-width="1.2"/>
+  <text x="95" y="408" font-size="13" font-weight="bold" fill="#8a6a1a">Tips</text>
+  <text x="95" y="427" font-size="12.5" fill="#3a4149">• La pata MÁS LARGA es el (+) → va a GPIO12. La corta (−) → GND. (A veces hay un "+" marcado en el cuerpo.)</text>
+  <text x="95" y="444" font-size="12.5" fill="#3a4149">• Quita el sticker blanco de arriba ("remove seal") para que suene más fuerte. No necesita resistencia.</text>
+</svg>

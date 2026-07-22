@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 640" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1080" height="640" fill="#ffffff"/>
+  <text x="540" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1a2530">Cómo conectar el LED RGB (4 patas)</text>
+  <text x="540" y="68" text-anchor="middle" font-size="15" fill="#5a6672">Común → GND (sin resistencia).  Cada color (R, G, B) con su resistencia de 570Ω a un GPIO.</text>
+
+  <!-- ===== Riel GND ===== -->
+  <line x1="250" y1="560" x2="820" y2="560" stroke="#6b7580" stroke-width="5"/>
+  <text x="254" y="585" font-size="14" font-weight="bold" fill="#6b7580">GND</text>
+
+  <!-- ===== LED RGB (dibujo simple con 4 patas) ===== -->
+  <rect x="70" y="150" width="210" height="300" rx="12" fill="#f7f9fb" stroke="#5a6672" stroke-width="2"/>
+  <text x="175" y="182" text-anchor="middle" font-size="19" font-weight="bold" fill="#1a2530">LED RGB</text>
+  <!-- cupula del LED -->
+  <path d="M140 210 a35 35 0 0 1 70 0 v40 h-70 z" fill="#eef2f5" stroke="#9aa6b0" stroke-width="1.5"/>
+  <text x="175" y="238" text-anchor="middle" font-size="11" fill="#7c8894">(4 patas)</text>
+
+  <!-- pines/patas -->
+  <text x="100" y="303" font-size="16" font-weight="bold" fill="#c6413f">R</text>
+  <text x="100" y="333" font-size="15" font-weight="bold" fill="#3a4149">Común</text>
+  <text x="100" y="349" font-size="11" fill="#8a6a1a">(la más larga)</text>
+  <text x="100" y="393" font-size="16" font-weight="bold" fill="#2c8f6e">G</text>
+  <text x="100" y="433" font-size="16" font-weight="bold" fill="#2c6bad">B</text>
+  <circle cx="280" cy="298" r="6" fill="#c6413f"/>
+  <circle cx="280" cy="330" r="6" fill="#6b7580"/>
+  <circle cx="280" cy="388" r="6" fill="#2c8f6e"/>
+  <circle cx="280" cy="428" r="6" fill="#2c6bad"/>
+
+  <!-- ===== ESP32 ===== -->
+  <rect x="800" y="150" width="200" height="300" rx="12" fill="#14332b" stroke="#0a1a15" stroke-width="2.5"/>
+  <text x="900" y="182" text-anchor="middle" font-size="19" font-weight="bold" fill="#ebd9a0">ESP32-S3</text>
+  <text x="852" y="303" font-size="15" font-weight="bold" fill="#f2ede0">GPIO13</text>
+  <text x="866" y="335" font-size="15" font-weight="bold" fill="#f2ede0">GND</text>
+  <text x="852" y="393" font-size="15" font-weight="bold" fill="#f2ede0">GPIO14</text>
+  <text x="852" y="433" font-size="15" font-weight="bold" fill="#f2ede0">GPIO21</text>
+  <circle cx="800" cy="298" r="6" fill="#c6413f"/>
+  <circle cx="800" cy="330" r="6" fill="#6b7580"/>
+  <circle cx="800" cy="388" r="6" fill="#2c8f6e"/>
+  <circle cx="800" cy="428" r="6" fill="#2c6bad"/>
+
+  <!-- ===== R -> 570 -> GPIO13 ===== -->
+  <line x1="280" y1="298" x2="470" y2="298" stroke="#c6413f" stroke-width="3.5"/>
+  <rect x="470" y="284" width="90" height="28" rx="4" fill="#ffffff" stroke="#1a2530" stroke-width="2"/>
+  <text x="515" y="303" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a2530">570Ω</text>
+  <line x1="560" y1="298" x2="800" y2="298" stroke="#c6413f" stroke-width="3.5"/>
+
+  <!-- ===== Común -> GND (directo, sin resistencia) ===== -->
+  <polyline points="280,330 380,330 380,560" fill="none" stroke="#6b7580" stroke-width="3.5"/>
+  <polyline points="800,330 760,330 760,560" fill="none" stroke="#6b7580" stroke-width="3.5"/>
+  <text x="430" y="352" font-size="12.5" font-weight="bold" fill="#6b7580">Común → GND (sin resistencia)</text>
+
+  <!-- ===== G -> 570 -> GPIO14 ===== -->
+  <line x1="280" y1="388" x2="470" y2="388" stroke="#2c8f6e" stroke-width="3.5"/>
+  <rect x="470" y="374" width="90" height="28" rx="4" fill="#ffffff" stroke="#1a2530" stroke-width="2"/>
+  <text x="515" y="393" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a2530">570Ω</text>
+  <line x1="560" y1="388" x2="800" y2="388" stroke="#2c8f6e" stroke-width="3.5"/>
+
+  <!-- ===== B -> 570 -> GPIO21 ===== -->
+  <line x1="280" y1="428" x2="470" y2="428" stroke="#2c6bad" stroke-width="3.5"/>
+  <rect x="470" y="414" width="90" height="28" rx="4" fill="#ffffff" stroke="#1a2530" stroke-width="2"/>
+  <text x="515" y="433" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a2530">570Ω</text>
+  <line x1="560" y1="428" x2="800" y2="428" stroke="#2c6bad" stroke-width="3.5"/>
+
+  <!-- ===== Nota ===== -->
+  <rect x="70" y="470" width="600" height="86" rx="8" fill="#f3e9fb" stroke="#8a48b8" stroke-width="1.5"/>
+  <text x="85" y="494" font-size="13.5" font-weight="bold" fill="#6a2fa0">Cómo identificar las patas</text>
+  <text x="85" y="514" font-size="12.5" fill="#3a4149">• La pata MÁS LARGA es el Común → va directo a GND.</text>
+  <text x="85" y="532" font-size="12.5" fill="#3a4149">• Las otras 3 (R, G, B) van cada una con su 570Ω a GPIO13, 14 y 21.</text>
+  <text x="85" y="550" font-size="12.5" fill="#3a4149">• El orden de R/G/B no es crítico: si los colores salen cambiados, se corrige en software.</text>
+</svg>

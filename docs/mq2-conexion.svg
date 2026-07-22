@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 640" font-family="Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1060" height="640" fill="#ffffff"/>
+  <text x="530" y="44" text-anchor="middle" font-size="26" font-weight="bold" fill="#1a2530">Cómo conectar el sensor MQ-2</text>
+  <text x="530" y="70" text-anchor="middle" font-size="15" fill="#5a6672">Solo 3 cables: VCC, GND y AO (a través del divisor de 2 resistencias). El pin DO no se usa.</text>
+
+  <!-- ===== Riel GND (abajo) ===== -->
+  <line x1="230" y1="560" x2="820" y2="560" stroke="#6b7580" stroke-width="5"/>
+  <text x="234" y="585" font-size="14" font-weight="bold" fill="#6b7580">GND (tierra común)</text>
+
+  <!-- ===== MQ-2 ===== -->
+  <rect x="70" y="150" width="200" height="300" rx="12" fill="#f7f4ef" stroke="#8a48b8" stroke-width="2.5"/>
+  <text x="170" y="185" text-anchor="middle" font-size="20" font-weight="bold" fill="#1a2530">Sensor MQ-2</text>
+  <!-- pines -->
+  <text x="110" y="230" font-size="17" font-weight="bold" fill="#1a2530">VCC</text>
+  <text x="110" y="290" font-size="17" font-weight="bold" fill="#1a2530">AO</text>
+  <text x="110" y="350" font-size="17" fill="#9aa6b0">DO</text>
+  <text x="150" y="350" font-size="13" fill="#c6413f">(no conectar)</text>
+  <text x="110" y="410" font-size="17" font-weight="bold" fill="#1a2530">GND</text>
+  <circle cx="270" cy="224" r="6" fill="#c6413f"/>
+  <circle cx="270" cy="284" r="6" fill="#8a48b8"/>
+  <circle cx="270" cy="344" r="6" fill="#c9ccce"/>
+  <circle cx="270" cy="404" r="6" fill="#6b7580"/>
+
+  <!-- ===== ESP32 ===== -->
+  <rect x="790" y="150" width="200" height="300" rx="12" fill="#14332b" stroke="#0a1a15" stroke-width="2.5"/>
+  <text x="890" y="185" text-anchor="middle" font-size="20" font-weight="bold" fill="#ebd9a0">ESP32-S3</text>
+  <text x="850" y="230" font-size="17" font-weight="bold" fill="#f2ede0">5V</text>
+  <text x="838" y="290" font-size="17" font-weight="bold" fill="#f2ede0">GPIO4</text>
+  <text x="846" y="410" font-size="17" font-weight="bold" fill="#f2ede0">GND</text>
+  <circle cx="790" cy="224" r="6" fill="#c6413f"/>
+  <circle cx="790" cy="284" r="6" fill="#8a48b8"/>
+  <circle cx="790" cy="404" r="6" fill="#6b7580"/>
+
+  <!-- ===== Cable 1: VCC -> 5V (rojo) ===== -->
+  <line x1="270" y1="224" x2="790" y2="224" stroke="#c6413f" stroke-width="3.5"/>
+  <text x="530" y="214" text-anchor="middle" font-size="14" font-weight="bold" fill="#c6413f">① VCC → 5V</text>
+
+  <!-- ===== Cable 3: GND -> riel y riel -> ESP32 GND (gris) ===== -->
+  <polyline points="270,404 300,404 300,560" fill="none" stroke="#6b7580" stroke-width="3.5"/>
+  <polyline points="790,404 760,404 760,560" fill="none" stroke="#6b7580" stroke-width="3.5"/>
+  <text x="360" y="430" font-size="14" font-weight="bold" fill="#6b7580">③ GND → GND</text>
+
+  <!-- ===== Cable 2 con DIVISOR: AO -> R1 -> nodo -> GPIO4 ; nodo -> R2 -> GND ===== -->
+  <!-- AO a R1 -->
+  <line x1="270" y1="284" x2="360" y2="284" stroke="#8a48b8" stroke-width="3.5"/>
+  <!-- R1 -->
+  <rect x="360" y="270" width="90" height="28" rx="4" fill="#ffffff" stroke="#1a2530" stroke-width="2"/>
+  <text x="405" y="289" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">R1 · 1KΩ</text>
+  <!-- R1 a nodo -->
+  <line x1="450" y1="284" x2="520" y2="284" stroke="#8a48b8" stroke-width="3.5"/>
+  <!-- NODO (punto medio) -->
+  <circle cx="520" cy="284" r="9" fill="#8a48b8"/>
+  <circle cx="520" cy="284" r="16" fill="none" stroke="#8a48b8" stroke-width="2" stroke-dasharray="4 3"/>
+  <!-- nodo a GPIO4 -->
+  <line x1="520" y1="284" x2="790" y2="284" stroke="#8a48b8" stroke-width="3.5"/>
+  <text x="655" y="274" text-anchor="middle" font-size="14" font-weight="bold" fill="#8a48b8">② AO → (divisor) → GPIO4</text>
+  <!-- nodo a R2 (hacia abajo) -->
+  <line x1="520" y1="284" x2="520" y2="470" stroke="#8a48b8" stroke-width="3.5"/>
+  <rect x="475" y="470" width="90" height="28" rx="4" fill="#ffffff" stroke="#1a2530" stroke-width="2" transform="rotate(90 520 484)"/>
+  <text x="440" y="488" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a2530">R2·1KΩ</text>
+  <!-- R2 a riel GND -->
+  <line x1="520" y1="498" x2="520" y2="560" stroke="#6b7580" stroke-width="3.5"/>
+
+  <!-- Callout del nodo -->
+  <rect x="540" y="326" width="250" height="82" rx="8" fill="#f3e9fb" stroke="#8a48b8" stroke-width="1.5"/>
+  <text x="552" y="350" font-size="14" font-weight="bold" fill="#6a2fa0">⬅ EL NODO MEDIO (lo clave)</text>
+  <text x="552" y="372" font-size="13" fill="#3a4149">Aquí se juntan: la salida de R1,</text>
+  <text x="552" y="390" font-size="13" fill="#3a4149">el cable a GPIO4 y la entrada de R2.</text>
+
+  <!-- Nota alimentacion -->
+  <text x="530" y="620" text-anchor="middle" font-size="13" fill="#8a6a1a">VCC puede ir al pin 5V del ESP32 para probar (o a una fuente de 5V externa). Todas las tierras (GND) unidas.</text>
+</svg>
