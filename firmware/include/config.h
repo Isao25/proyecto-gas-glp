@@ -41,12 +41,16 @@
 // ---------------------------------------------------------------------------
 //  UMBRALES DE GLP EN PPM  (con HISTERESIS para que no oscile en el borde)
 //  LEL del GLP ~ 18000 ppm. Aqui trabajamos muy por debajo, en % del LEL.
-//  AJUSTA estos valores despues de calibrar en aire limpio.
+//
+//  NOTA: umbrales de DEMO, ajustados al gas de prueba disponible (encendedor /
+//  alcohol dan lecturas modestas ~10-50 ppm con exposicion breve). Para el
+//  proyecto final con fuente de gas real y sostenida, usar valores realistas
+//  (ej. PRE-ALARMA 1000 / ALARMA 2000, ~% del LEL).
 // ---------------------------------------------------------------------------
-#define PPM_PREALARMA_ON     1000   // sube a PRE-ALARMA
-#define PPM_PREALARMA_OFF     800   // baja de PRE-ALARMA a NORMAL
-#define PPM_ALARMA_ON        2000   // sube a ALARMA -> corte automatico
-#define PPM_ALARMA_OFF       1500   // baja de ALARMA a PRE-ALARMA
+#define PPM_PREALARMA_ON      30   // sube a PRE-ALARMA
+#define PPM_PREALARMA_OFF     18   // baja de PRE-ALARMA a NORMAL
+#define PPM_ALARMA_ON         40   // sube a ALARMA -> corte automatico
+#define PPM_ALARMA_OFF        25   // baja de ALARMA a PRE-ALARMA
 
 // ---------------------------------------------------------------------------
 //  TIEMPOS
