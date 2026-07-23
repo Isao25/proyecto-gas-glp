@@ -3,60 +3,80 @@
     "uid": "glp-dash",
     "title": "Detector de Fuga de GLP",
     "timezone": "browser",
-    "schemaVersion": 39,
-    "version": 0,
+    "schemaVersion": 41,
     "refresh": "5s",
-    "time": { "from": "now-15m", "to": "now" },
+    "time": { "from": "now-3h", "to": "now" },
     "panels": [
       {
-        "id": 1,
-        "type": "timeseries",
-        "title": "Concentracion de GLP (ppm)",
-        "gridPos": { "h": 10, "w": 18, "x": 0, "y": 0 },
+        "id": 1, "type": "timeseries", "title": "Concentracion de GLP (ppm) — historico",
+        "gridPos": { "h": 9, "w": 18, "x": 0, "y": 0 },
         "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
         "fieldConfig": {
           "defaults": {
             "unit": "ppm",
-            "min": 0,
-            "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "fillOpacity": 20, "lineWidth": 2, "gradientMode": "scheme", "showPoints": "never" },
-            "thresholds": { "mode": "absolute", "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1000 },
-              { "color": "red", "value": 2000 }
-            ] },
-            "color": { "mode": "thresholds" }
-          }
+            "color": { "mode": "palette-classic" },
+            "custom": { "drawStyle": "line", "lineInterpolation": "linear", "lineWidth": 2, "fillOpacity": 15, "showPoints": "never", "axisPlacement": "auto", "spanNulls": true }
+          },
+          "overrides": []
         },
-        "options": { "tooltip": { "mode": "single" }, "legend": { "displayMode": "hidden" } },
-        "targets": [ {
-          "refId": "A",
-          "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
-          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"ppm\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        } ]
+        "options": {
+          "tooltip": { "mode": "single", "sort": "none" },
+          "legend": { "showLegend": false, "displayMode": "list", "placement": "bottom", "calcs": [] }
+        },
+        "targets": [ { "refId": "A", "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"ppm\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)" } ]
       },
       {
-        "id": 2,
-        "type": "stat",
-        "title": "Ultimo valor",
-        "gridPos": { "h": 10, "w": 6, "x": 18, "y": 0 },
+        "id": 2, "type": "stat", "title": "Ultimo valor",
+        "gridPos": { "h": 5, "w": 6, "x": 18, "y": 0 },
+        "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+        "fieldConfig": { "defaults": { "unit": "ppm",
+          "thresholds": { "mode": "absolute", "steps": [ { "color": "green", "value": null }, { "color": "yellow", "value": 30 }, { "color": "red", "value": 40 } ] },
+          "color": { "mode": "thresholds" } }, "overrides": [] },
+        "options": { "graphMode": "area", "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+        "targets": [ { "refId": "A", "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"ppm\")\n  |> last()" } ]
+      },
+      {
+        "id": 3, "type": "stat", "title": "ppm maximo (en el rango)",
+        "gridPos": { "h": 4, "w": 6, "x": 18, "y": 5 },
+        "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+        "fieldConfig": { "defaults": { "unit": "ppm", "color": { "mode": "fixed", "fixedColor": "orange" } }, "overrides": [] },
+        "options": { "graphMode": "none", "colorMode": "value", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false } },
+        "targets": [ { "refId": "A", "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"ppm\")\n  |> max()" } ]
+      },
+      {
+        "id": 4, "type": "timeseries", "title": "Senal WiFi (RSSI) — historico",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 9 },
         "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
         "fieldConfig": {
           "defaults": {
-            "unit": "ppm",
-            "thresholds": { "mode": "absolute", "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1000 },
-              { "color": "red", "value": 2000 }
-            ] },
-            "color": { "mode": "thresholds" }
-          }
+            "unit": "dBm",
+            "color": { "mode": "fixed", "fixedColor": "green" },
+            "custom": { "drawStyle": "line", "lineInterpolation": "linear", "lineWidth": 2, "fillOpacity": 10, "showPoints": "never", "spanNulls": true }
+          },
+          "overrides": []
         },
-        "options": { "graphMode": "area", "colorMode": "background", "reduceOptions": { "calcs": ["lastNotNull"] } },
-        "targets": [ {
-          "refId": "A",
-          "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
-          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"ppm\")\n  |> last()"
-        } ]
+        "options": { "tooltip": { "mode": "single", "sort": "none" }, "legend": { "showLegend": false, "displayMode": "list", "placement": "bottom", "calcs": [] } },
+        "targets": [ { "refId": "A", "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"telemetria\" and r._field == \"rssi\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)" } ]
+      },
+      {
+        "id": 5, "type": "timeseries", "title": "Alarmas (1 = activa) — historico",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 9 },
+        "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+        "fieldConfig": {
+          "defaults": {
+            "min": 0, "max": 1,
+            "color": { "mode": "fixed", "fixedColor": "red" },
+            "custom": { "drawStyle": "line", "lineInterpolation": "stepAfter", "lineWidth": 2, "fillOpacity": 35, "showPoints": "never", "spanNulls": true }
+          },
+          "overrides": []
+        },
+        "options": { "tooltip": { "mode": "single", "sort": "none" }, "legend": { "showLegend": false, "displayMode": "list", "placement": "bottom", "calcs": [] } },
+        "targets": [ { "refId": "A", "datasource": { "type": "influxdb", "uid": "influxdb-glp" },
+          "query": "from(bucket: \"gas\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"alarma\" and r._field == \"alarma\")\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)" } ]
       }
     ]
   },
